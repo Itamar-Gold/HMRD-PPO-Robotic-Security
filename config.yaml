@@ -1,0 +1,95 @@
+# Simulation Variables
+simulation:
+  time_step: 0.2                  # Timestep for simulation
+  red_drone_speed: 0.05
+  blue_drone_speed: 0.03
+  blue_drone_onboard_vision: 0.04
+  launch_delay: 250                 # Launch delay steps
+  proportional_nav_N: 5.0         # N constant for Proportional Navigation (PN)
+  border_y: 70                    # Y-coordinate border line
+  camera_range: 40                # Detection range of cameras
+  camera_sweep_angle: 60
+  capture_radius: 20
+  target_hit_radius: 0.01
+  target_capture_radius: 0.01
+  x_map_lim: [0, 80]              # X-axis limits of the map
+  y_map_lim: [0, 115]             # Y-axis limits of the map
+  selected_targets: [[3, 30], [10, 10], [25, 25], [50, 22],
+                     [55, 40], [30, 40], [60, 20], [65, 42]]
+
+  
+  # Dynamic settings modified during levels
+  num_drones: 30                  # Default number of red drones in a wave
+  levels:
+    - id: 1
+      adaptability: "no"
+      start_pos: [[40, 115]]
+      target_slice: 4             # Targets to use
+    - id: 2
+      adaptability: "no"
+      start_pos: [[0, 115], [40, 115], [80, 115]]
+      target_slice: 4
+    - id: 3
+      adaptability: "no"
+      start_pos: [[0, 115], [40, 115], [80, 115]]
+      target_slice: "all"
+    - id: 4
+      adaptability: "partial"     # Memory resets every 10 drones
+      start_pos: [[0, 115], [40, 115], [80, 115]]
+      target_slice: "all"
+    - id: 5
+      adaptability: "yes"         # Full adaptability
+      start_pos: [[0, 115], [40, 115], [80, 115]]
+      target_slice: "all"
+    - id: 6
+      adaptability: "yes"
+      start_pos: [[40, 115]]
+      target_slice: "all"
+
+  # AAA* Pathfinding Parameters
+  aaa_star:
+    grid_step_size: 0.5
+    penalty_radius: 3
+    penalty_weight: 5
+    stretch_factor: 4
+
+  # Pure Pursuit Parameters
+  pure_pursuit:
+    lookahead_dist: 2.0
+
+# Evaluation Variables
+evaluation:
+  results_dir: "results/"         # Where to save the output CSVs/Plots/JSONs
+  animation_dir: "animation/"     # Where to save generated frame-by-frame visualizations
+
+# Data Variables
+data:
+  raw_roi_path: "data/roi.xlsx"
+  placement_path: "data/placement.xlsx"
+
+# Monte Carlo Tree Search Variables
+mcts:
+  grid_step: 2
+  C: 0.8
+  H: 3
+  d_max_multiplier: 4
+  density_radius_multiplier: 1
+  iterations: 1000
+  sim_level: [1, 2, 3, 4, 5, 6]
+  instance_penalty: 100.0
+  q_min: -2000.0
+  q_max: 1900.0
+
+# Hyperparameters
+hmrd_ppo:
+  SEED: 42
+  critic_lr_list: [1e-5]
+  cdfc_actor_lr_list: [1e-5]
+  cfc_actor_lr_list: [2.5e-4]
+  extras_cameras: 2
+  extras_launch_pads: 1
+  extras_camera_pos: [40, 30, 90]
+  extras_launch_pad_pos: [40, 30]
+  gamma: 0.99
+  clip_eps: 0.2
+  episodes: 10000

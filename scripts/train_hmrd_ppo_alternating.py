@@ -11,8 +11,9 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from src.simulation.engine import DroneSimulation
 from src.algorithms.ppo import CDFC_Actor, CFC_Actor, Critic, PPO
 from src.simulation.parallel import cfc_mean_rewards_parallel
-from src.algorithms.rewards import compute_density_penalty
+from src.algorithms.rewards import compute_density_penalty, compute_detect_density
 from src.utils.save import save_best_config, save_to_file, save_models
+from src.utils.geometry import get_cameras_pointers
 
 def flatten_list(list_scores):
     flattened_list = []
@@ -108,6 +109,9 @@ def main():
                 cdfc_monitor = []
                 cfc_monitor = []
                 dump = []
+                dump_float = 0
+                avg_reward = 0
+                capture_rate_avg = 0
                 how_many_100 = 0
                 last_updated = 0
 
@@ -231,7 +235,6 @@ def main():
                     if cdfc_rewards > high_cdfc_reward:
                         high_cdfc_reward = cdfc_rewards
                         best_cdfc = cdfc_state
-                        best_cdfc_cfc = best_cfc
 
                     # Level Up Logic
                     if (((avg_reward >= 1500 or how_many_100 > 50) and last_updated + 200 <= episode) or
@@ -275,7 +278,7 @@ def main():
 
                 # plot interception rewards
                 plt.figure(figsize=(10, 5))
-                plt.plot(cdfc_episodes_log, cdfc_avg_reward_log, label='Interception Avg Rewards',
+                plt.plot(cdfc_episodes_log, cdfc_avg_reward_log, label='Capture Avg Rewards',
                          color='b', linewidth=2)
                 plt.xlabel("Episodes")
                 plt.ylabel("Rewards")

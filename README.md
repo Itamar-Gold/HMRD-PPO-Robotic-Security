@@ -7,6 +7,11 @@
 
 **HMRD-PPO-Robotic-Security** is a Multi-Agent Reinforcement Learning (MARL) framework designed for the co-optimization of heterogeneous robotic security assets. Specifically, it focuses on the optimal deployment of surveillance cameras and capture drone launch stations against adaptive adversarial drones.
 
+
+
+https://github.com/user-attachments/assets/e8cab1a2-529b-44ea-b06c-62a7ae2f44a9
+
+
 ## 🚀 Key Features
 
 - **Cooperative MARL Architecture**: Centralized fleet controllers (PPO) managing continuous spatial actions.
